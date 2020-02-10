@@ -3,7 +3,7 @@
  */
 
 rootProject.name = 'goexp_lib'
-include(':common')
+include(':core')
 include(':piplline')
 include(':db_mongo')
 include 'javafx'
