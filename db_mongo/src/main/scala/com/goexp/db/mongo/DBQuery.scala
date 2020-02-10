@@ -1,4 +1,4 @@
-package com.goexp.common.db.mongo
+package com.goexp.db.mongo
 
 import java.util
 import java.util.Objects
