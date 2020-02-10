@@ -1,0 +1,11 @@
+group 'com.goexp.ui'
+version '1.0'
+
+plugins {
+    id 'org.openjfx.javafxplugin' version '0.0.8'
+}
+
+javafx {
+    version = '13'
+    modules = ['javafx.base','javafx.controls', 'javafx.graphics', 'javafx.fxml']
+}
