@@ -1,4 +1,6 @@
-package com.goexp.javafx.cell
+package com.goexp.ui.javafx.control.cell
+
+import javafx.scene.Node
 
 class TableCell[Table, Entity] extends javafx.scene.control.TableCell[Table, Entity] {
   override protected def updateItem(item: Entity, empty: Boolean): Unit = {

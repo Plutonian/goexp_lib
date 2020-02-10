@@ -1,4 +1,6 @@
-package com.goexp.javafx.cell
+package com.goexp.ui.javafx.control.cell
+
+import javafx.scene.Node
 
 class TreeCell[Entity] extends javafx.scene.control.TreeCell[Entity] {
   override protected def updateItem(item: Entity, empty: Boolean): Unit = {
