@@ -4,7 +4,7 @@
 
 allprojects {
     group = 'com.goexp'
-    version = '1.0-SNAPSHOT'
+    version = '1.0'
 }
 
 subprojects {
@@ -32,6 +32,9 @@ subprojects {
             }
         }
     }
+
+    sourceCompatibility=11
+    targetCompatibility=11
 
     tasks.withType(ScalaCompile) {
         options.encoding = 'UTF-8'
