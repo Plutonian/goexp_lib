@@ -52,7 +52,7 @@ class DBQuery[T] private(database: String,
            table: String,
            defaultCreator: ObjectCreator[T],
            defaultSelect: Bson,
-           defaultSort: Bson) {
+           defaultSort: Bson) = {
     this(database, table, defaultCreator)
 
     this.defaultSelect = defaultSelect
@@ -97,13 +97,13 @@ class DBQuery[T] private(database: String,
 
   def set(userCreator: ObjectCreator[T] = defaultCreator) = {
     Objects.requireNonNull(userCreator)
-    docs2Collection(userCreator.create, new util.HashSet[T])
+    docs2Collection(userCreator.create _, new util.HashSet[T])
   }
 
 
   def list(userCreator: ObjectCreator[T] = defaultCreator) = {
     Objects.requireNonNull(userCreator)
-    docs2Collection(userCreator.create, new util.ArrayList[T])
+    docs2Collection(userCreator.create _, new util.ArrayList[T])
   }
 
 
@@ -113,7 +113,7 @@ class DBQuery[T] private(database: String,
   def one(userCreator: ObjectCreator[T] = defaultCreator): Option[T] = {
     Objects.requireNonNull(userCreator)
 
-    val iterable = buildFileIterrableOne.map(userCreator.create)
+    val iterable = buildFileIterrableOne.map(userCreator.create _)
 
     Option(iterable.first)
   }
@@ -123,6 +123,6 @@ class DBQuery[T] private(database: String,
 
 
   private def docs2Collection[A <: util.Collection[T]](userCreator: ObjectCreator[T], clazz: A) =
-    buildFileIterrableMany.map(userCreator.create).into(clazz)
+    buildFileIterrableMany.map(userCreator.create _).into(clazz)
 
 }
