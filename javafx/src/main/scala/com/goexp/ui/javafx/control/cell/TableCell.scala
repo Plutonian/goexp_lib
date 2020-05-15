@@ -2,8 +2,8 @@ package com.goexp.ui.javafx.control.cell
 
 import javafx.scene.Node
 
-class TableCell[Table, Entity] extends javafx.scene.control.TableCell[Table, Entity] {
-  override protected def updateItem(item: Entity, empty: Boolean): Unit = {
+class TableCell[Entity, Prop] extends javafx.scene.control.TableCell[Entity, Prop] {
+  override protected def updateItem(item: Prop, empty: Boolean): Unit = {
     super.updateItem(item, empty)
     this.setText(null)
     this.setGraphic(null)
@@ -15,7 +15,7 @@ class TableCell[Table, Entity] extends javafx.scene.control.TableCell[Table, Ent
 
   }
 
-  protected def notEmpty(item: Entity): Unit = {
+  protected def notEmpty(item: Prop): Unit = {
 
   }
 
@@ -26,9 +26,15 @@ class TableCell[Table, Entity] extends javafx.scene.control.TableCell[Table, Ent
 }
 
 object TextTableCell {
-  def apply[Table, Entity](hasData: Entity => String) = new TableCell[Table, Entity]() {
-    override def notEmpty(item: Entity): Unit = {
+  def apply[Entity, Prop](hasData: Prop => String) = new TableCell[Entity, Prop]() {
+    override def notEmpty(item: Prop): Unit = {
       this.setText(hasData(item))
+    }
+  }
+
+  def apply[Entity, Prop](hasData: (Entity, Prop) => String) = new TableCell[Entity, Prop]() {
+    override def notEmpty(item: Prop): Unit = {
+      this.setText(hasData(this.getTableRow.getItem, item))
     }
   }
 
@@ -36,8 +42,14 @@ object TextTableCell {
 
 object NodeTableCell {
 
-  def apply[Table, Entity](hasData: Entity => Node) = new TableCell[Table, Entity]() {
-    override def notEmpty(item: Entity): Unit = {
+  def apply[Entity, Prop](hasData: (Entity, Prop) => Node) = new TableCell[Entity, Prop]() {
+    override def notEmpty(item: Prop): Unit = {
+      this.setGraphic(hasData(this.getTableRow.getItem, item))
+    }
+  }
+
+  def apply[Entity, Prop](hasData: Prop => Node) = new TableCell[Entity, Prop]() {
+    override def notEmpty(item: Prop): Unit = {
       this.setGraphic(hasData(item))
     }
   }
