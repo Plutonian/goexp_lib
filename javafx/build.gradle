@@ -3,7 +3,6 @@ plugins {
 }
 
 group 'com.goexp.ui'
-version '1.0.1'
 
 javafx {
     version = '13.0.2'
