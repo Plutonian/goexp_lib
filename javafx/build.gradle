@@ -6,6 +6,6 @@ group 'com.goexp.ui'
 version '1.0.1'
 
 javafx {
-    version = '13'
+    version = '13.0.2'
     modules = ['javafx.base', 'javafx.controls', 'javafx.graphics', 'javafx.fxml']
 }
