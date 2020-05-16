@@ -18,7 +18,7 @@ abstract class OnErrorReTryHandler(private val retryTimes: Int) extends DefaultH
   private var waitTime: Int = _
   private var unit: TimeUnit = _
 
-  def this(retryTimes: Int, waitTime: Int, unit: TimeUnit) {
+  def this(retryTimes: Int, waitTime: Int, unit: TimeUnit) = {
     this(retryTimes)
 
     requireNonNull(unit)
