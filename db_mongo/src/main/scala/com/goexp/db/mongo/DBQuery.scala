@@ -9,7 +9,8 @@ import scala.jdk.CollectionConverters._
 
 object DBQuery {
 
-  class Builder[T] private[DBQuery](private val database: String,
+  class Builder[T] private[DBQuery](private val connStr: String,
+                                    private val database: String,
                                     private val table: String,
                                     private val creator: ObjectCreator[T]
                                    ) {
@@ -26,17 +27,20 @@ object DBQuery {
       this
     }
 
-    def build = new DBQuery[T](database, table, creator, defaultSelect, defaultSort)
+    def build = new DBQuery[T](connStr, database, table, creator, defaultSelect, defaultSort)
   }
 
-  def apply[T](database: String, table: String, defaultCreator: ObjectCreator[T]) = new Builder(database, table, defaultCreator)
+  def apply[T](connStr: String, database: String, table: String, defaultCreator: ObjectCreator[T]) = new Builder(connStr, database, table, defaultCreator)
+
+  def apply[T](database: String, table: String, defaultCreator: ObjectCreator[T]) = new Builder(null, database, table, defaultCreator)
 
 }
 
-class DBQuery[T] private(database: String,
+class DBQuery[T] private(connStr: String,
+                         database: String,
                          table: String,
                          private val defaultCreator: ObjectCreator[T]
-                        ) extends DBTemplate(database, table) {
+                        ) extends DBTemplate(connStr, database, table) {
 
   //init start
 
@@ -48,12 +52,14 @@ class DBQuery[T] private(database: String,
   private var defaultSort: Bson = _
   private var defaultSelect: Bson = _
 
-  def this(database: String,
-           table: String,
-           defaultCreator: ObjectCreator[T],
-           defaultSelect: Bson,
-           defaultSort: Bson) = {
-    this(database, table, defaultCreator)
+  def this(
+            connStr: String,
+            database: String,
+            table: String,
+            defaultCreator: ObjectCreator[T],
+            defaultSelect: Bson,
+            defaultSort: Bson) = {
+    this(connStr, database, table, defaultCreator)
 
     this.defaultSelect = defaultSelect
     this.defaultSort = defaultSort
