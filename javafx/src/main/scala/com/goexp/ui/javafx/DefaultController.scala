@@ -1,10 +1,9 @@
 package com.goexp.ui.javafx
 
-import com.typesafe.scalalogging.Logger
+import com.goexp.common.util.Logger
 import javafx.fxml.FXML
 
-abstract class DefaultController {
-  final protected val logger = Logger(getClass)
+abstract class DefaultController extends Logger {
 
   @FXML protected def initialize(): Unit
 }

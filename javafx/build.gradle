@@ -8,3 +8,7 @@ javafx {
     version = '13.0.2'
     modules = ['javafx.base', 'javafx.controls', 'javafx.graphics', 'javafx.fxml']
 }
+
+dependencies {
+    compile project(':core')
+}

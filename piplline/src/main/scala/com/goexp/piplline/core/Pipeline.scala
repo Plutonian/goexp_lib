@@ -13,7 +13,7 @@ class Pipeline extends MessageDriven with Logger {
   private val msgQueueProxy = new MessageQueueProxy[Message](1000)
 
 
-  private val listenerExecutorService = Executors.newSingleThreadExecutor
+  private val dispatchExecutor = Executors.newSingleThreadExecutor
 
   private val configs = mutable.Set[HandlerConfig]()
 
@@ -78,7 +78,7 @@ class Pipeline extends MessageDriven with Logger {
         _.handler.getClass()
       }
     //start message driven
-    listenerExecutorService.execute { () =>
+    dispatchExecutor.execute { () =>
       var running = true
       while ( {
         running
@@ -128,6 +128,6 @@ class Pipeline extends MessageDriven with Logger {
       config.executor.shutdown()
     }
 
-    listenerExecutorService.shutdown()
+    dispatchExecutor.shutdown()
   }
 }
