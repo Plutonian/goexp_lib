@@ -66,10 +66,9 @@ class Pipeline extends MessageDriven with Logger {
   }
 
   def start() = {
-
-    this.queue = msgQueueProxy
     //fill queue
-    //    starter.queue = msgQueueProxy
+    this.queue = msgQueueProxy
+
     val mesTypeMap = configs.to(LazyList)
       .map { c =>
         c.handler.queue = msgQueueProxy
@@ -78,7 +77,6 @@ class Pipeline extends MessageDriven with Logger {
       .groupBy {
         _.handler.getClass()
       }
-    //      .collect(Collectors.groupingBy(HandlerConfig.mesCode))
     //start message driven
     listenerExecutorService.execute { () =>
       var running = true
@@ -110,13 +108,7 @@ class Pipeline extends MessageDriven with Logger {
           logger.info("listener task time out!!!")
           running = false
 
-          //wait for all ok
-          for (config <- configs) {
-            config.executor.shutdown()
-          }
-
-
-          listenerExecutorService.shutdown()
+          stop()
         }
       } catch {
         case e: InterruptedException =>
@@ -128,5 +120,14 @@ class Pipeline extends MessageDriven with Logger {
 
 
     this
+  }
+
+  def stop() = {
+    //wait for all ok
+    for (config <- configs) {
+      config.executor.shutdown()
+    }
+
+    listenerExecutorService.shutdown()
   }
 }
