@@ -2,16 +2,13 @@ package com.goexp.piplline.core
 
 import java.util.concurrent.{ExecutorService, Executors}
 
+import com.goexp.common.util.Logger
 import com.goexp.piplline
 import com.goexp.piplline.handler.HandlerConfig
-import com.typesafe.scalalogging.Logger
 
 import scala.collection.mutable
 
-class Pipeline(private val starter: Starter) {
-
-
-  private val logger = Logger(classOf[Pipeline])
+class Pipeline(private val starter: Starter) extends Logger {
 
   private val msgQueueProxy = new MessageQueueProxy[Message](1000)
 

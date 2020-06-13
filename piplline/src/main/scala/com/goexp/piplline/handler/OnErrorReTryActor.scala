@@ -5,15 +5,12 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicInteger
 
 import com.goexp.piplline.core.{Message, Pipeline, Starter}
-import com.goexp.piplline.handler.OnErrorReTryHandler._
-import com.typesafe.scalalogging.Logger
+import com.goexp.piplline.handler.OnErrorReTryActor._
 
 import scala.collection.concurrent.TrieMap
 
-abstract class OnErrorReTryHandler(private val retryTimes: Int) extends DefaultHandler {
+abstract class OnErrorReTryActor(private val retryTimes: Int) extends DefaultActor {
   require(retryTimes > 0, "times must > 0")
-
-  final private val logger = Logger(this.getClass)
 
   private var waitTime: Int = _
   private var unit: TimeUnit = _
@@ -64,7 +61,7 @@ abstract class OnErrorReTryHandler(private val retryTimes: Int) extends DefaultH
 
 }
 
-private object OnErrorReTryHandler {
+private object OnErrorReTryActor {
   private val map = new TrieMap[Any, AtomicInteger]()
 
   private def getCounter(entity: Any) =
@@ -81,7 +78,7 @@ private object OnErrorReTryHandler {
 private object Tester {
   def main(args: Array[String]): Unit = {
     new Pipeline(TestStart)
-      .regForCPUType(new TestHandler)
+      .regForCPUType(new TestActor)
       .start()
   }
 
@@ -90,18 +87,18 @@ private object Tester {
       Range(0, 10)
         .foreach {
           i =>
-            sendTo[TestHandler](i)
+            sendTo[TestActor](i)
         }
     }
   }
 
-  class TestHandler extends OnErrorReTryHandler(3, 1, TimeUnit.SECONDS) {
+  class TestActor extends OnErrorReTryActor(3, 1, TimeUnit.SECONDS) {
 
     var count_1: Int = _
     var count_3: Int = _
 
 
-    override def processEntity = {
+    override def receive = {
       case 1 =>
         count_1 += 1
 
