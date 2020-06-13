@@ -2,7 +2,6 @@ package com.goexp.piplline.core
 
 import scala.reflect.ClassTag
 
-private[piplline]
 trait MessageDriven {
 
   var queue: MessageQueueProxy[Message] = _

@@ -8,7 +8,7 @@ import com.goexp.piplline.handler.HandlerConfig
 
 import scala.collection.mutable
 
-class Pipeline(private val starter: Starter) extends Logger {
+class Pipeline extends MessageDriven with Logger {
 
   private val msgQueueProxy = new MessageQueueProxy[Message](1000)
 
@@ -65,10 +65,11 @@ class Pipeline(private val starter: Starter) extends Logger {
     this
   }
 
-  def start(): Unit = {
+  def start() = {
 
+    this.queue = msgQueueProxy
     //fill queue
-    starter.queue = msgQueueProxy
+    //    starter.queue = msgQueueProxy
     val mesTypeMap = configs.to(LazyList)
       .map { c =>
         c.handler.queue = msgQueueProxy
@@ -126,10 +127,6 @@ class Pipeline(private val starter: Starter) extends Logger {
     }
 
 
-    starter.process()
+    this
   }
-}
-
-object Pipeline {
-
 }

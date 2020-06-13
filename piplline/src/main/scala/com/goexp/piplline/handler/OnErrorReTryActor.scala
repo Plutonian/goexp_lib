@@ -4,7 +4,7 @@ import java.util.Objects._
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicInteger
 
-import com.goexp.piplline.core.{Message, Pipeline, Starter}
+import com.goexp.piplline.core.{Message, Pipeline}
 import com.goexp.piplline.handler.OnErrorReTryActor._
 
 import scala.collection.concurrent.TrieMap
@@ -77,19 +77,17 @@ private object OnErrorReTryActor {
 
 private object Tester {
   def main(args: Array[String]): Unit = {
-    new Pipeline(TestStart)
+    val pipeline = new Pipeline()
       .regForCPUType(new TestActor)
       .start()
-  }
 
-  object TestStart extends Starter {
-    override def process(): Unit = {
-      Range(0, 10)
-        .foreach {
-          i =>
-            sendTo[TestActor](i)
-        }
-    }
+    Range(0, 10)
+      .foreach {
+        i =>
+          pipeline.sendTo[TestActor](i)
+      }
+
+
   }
 
   class TestActor extends OnErrorReTryActor(3, 1, TimeUnit.SECONDS) {
