@@ -1,7 +1,7 @@
 package com.goexp.common.util
 
-import com.typesafe.scalalogging.Logger
+import com.typesafe.scalalogging
 
 trait Logger {
-  final val logger = Logger(this.getClass)
+  final val logger = scalalogging.Logger(this.getClass)
 }

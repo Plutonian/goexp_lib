@@ -6,6 +6,6 @@ group = 'com.goexp.db'
 
 dependencies {
     // https://mvnrepository.com/artifact/org.mongodb/mongo-java-driver
-    compile group: 'org.mongodb', name: 'mongo-java-driver', version: '3.12.7'
+    compileOnly group: 'org.mongodb', name: 'mongo-java-driver', version: '3.12.7'
 }
 
