@@ -64,7 +64,7 @@ class Pipeline extends MessageDriven with Logger {
     this
   }
 
-  def start() = {
+  def start(): Pipeline = {
     //fill queue
     this.queue = msgQueueProxy
 
@@ -81,16 +81,16 @@ class Pipeline extends MessageDriven with Logger {
       var running = true
       while ( {
         running
-      }) try {
-        val msg = msgQueueProxy.poll()
-        if (msg != null) {
+      })
+        try {
 
-          msg match {
-            case _: Shutdown =>
+          Option(msgQueueProxy.poll()) match {
+            case Some(_: Shutdown) =>
               running = false
 
               stop()
-            case userMsg@UserMessage(target, _) =>
+
+            case Some(userMsg@UserMessage(target, _)) =>
               mesTypeMap.get(target) match {
                 case Some(configs) =>
                   for (c <- configs) {
@@ -107,27 +107,25 @@ class Pipeline extends MessageDriven with Logger {
                     }
                   }
                 case None =>
-                  logger.error(s"No message handler for: ${target}")
+                  logger.error(s"No message handler for: $target")
               }
-            case _ =>
+            case Some(_) =>
               logger.error("Unknown Message catch!System shutdown!")
+              running = false
+
+              stop()
+            case None =>
+              logger.info("listener task time out!!!")
               running = false
 
               stop()
           }
 
+        } catch {
+          case e: InterruptedException =>
+            e.printStackTrace()
+            running = false
         }
-        else {
-          logger.info("listener task time out!!!")
-          running = false
-
-          stop()
-        }
-      } catch {
-        case e: InterruptedException =>
-          e.printStackTrace()
-          running = false
-      }
 
     }
 
@@ -137,7 +135,7 @@ class Pipeline extends MessageDriven with Logger {
     this
   }
 
-  def stop() = {
+  def stop(): Unit = {
     //wait for all ok
     for (config <- configs) {
       config.executor.shutdown()
