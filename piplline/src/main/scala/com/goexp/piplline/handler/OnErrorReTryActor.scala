@@ -1,12 +1,11 @@
 package com.goexp.piplline.handler
 
+import com.goexp.piplline.core.{Pipeline, UserMessage}
+import com.goexp.piplline.handler.OnErrorReTryActor._
+
 import java.util.Objects._
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicInteger
-
-import com.goexp.piplline.core.{Message, Pipeline}
-import com.goexp.piplline.handler.OnErrorReTryActor._
-
 import scala.collection.concurrent.TrieMap
 
 abstract class OnErrorReTryActor(private val retryTimes: Int) extends DefaultActor {
@@ -24,7 +23,7 @@ abstract class OnErrorReTryActor(private val retryTimes: Int) extends DefaultAct
     this.unit = unit
   }
 
-  private def onError(message: Message): Unit = {
+  private def onError(message: UserMessage): Unit = {
     val entity = message.entity
 
     val timesCounter = getCounter(entity)
@@ -45,7 +44,7 @@ abstract class OnErrorReTryActor(private val retryTimes: Int) extends DefaultAct
     }
   }
 
-  final override def process(message: Message): Unit = {
+  final override def process(message: UserMessage): Unit = {
     try {
       super.process(message)
       logger.trace(s"Succ ${message.entity}")

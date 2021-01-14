@@ -1,11 +1,10 @@
 package com.goexp.piplline.core
 
-import java.util.concurrent.{ExecutorService, Executors}
-
 import com.goexp.common.util.Logger
 import com.goexp.piplline
 import com.goexp.piplline.handler.HandlerConfig
 
+import java.util.concurrent.{ExecutorService, Executors}
 import scala.collection.mutable
 
 class Pipeline extends MessageDriven with Logger {
@@ -85,24 +84,38 @@ class Pipeline extends MessageDriven with Logger {
       }) try {
         val msg = msgQueueProxy.poll()
         if (msg != null) {
-          mesTypeMap.get(msg.target) match {
-            case Some(configs) =>
-              for (c <- configs) {
-                //exec actor
-                c.executor.execute { () =>
-                  val handler = c.handler
-                  try {
-                    handler.process(msg)
+
+          msg match {
+            case _: Shutdown =>
+              running = false
+
+              stop()
+            case userMsg@UserMessage(target, _) =>
+              mesTypeMap.get(target) match {
+                case Some(configs) =>
+                  for (c <- configs) {
+                    //exec actor
+                    c.executor.execute { () =>
+                      val handler = c.handler
+                      try {
+                        handler.process(userMsg)
+                      }
+                      catch {
+                        case e: Exception =>
+                          logger.error(s"Common exception catch => From:$handler", e)
+                      }
+                    }
                   }
-                  catch {
-                    case e: Exception =>
-                      logger.error(s"Common exception catch => From:$handler", e)
-                  }
-                }
+                case None =>
+                  logger.error(s"No message handler for: ${target}")
               }
-            case None =>
-              logger.error(s"No message handler for: ${msg.target}")
+            case _ =>
+              logger.error("Unknown Message catch!System shutdown!")
+              running = false
+
+              stop()
           }
+
         }
         else {
           logger.info("listener task time out!!!")
@@ -118,6 +131,8 @@ class Pipeline extends MessageDriven with Logger {
 
     }
 
+    logger.info("Pipeline system start")
+
 
     this
   }
@@ -129,5 +144,7 @@ class Pipeline extends MessageDriven with Logger {
     }
 
     dispatchExecutor.shutdown()
+
+    logger.info("Pipeline system shutdown")
   }
 }

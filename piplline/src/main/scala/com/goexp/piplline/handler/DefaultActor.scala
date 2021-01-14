@@ -1,14 +1,14 @@
 package com.goexp.piplline.handler
 
 import com.goexp.common.util.Logger
-import com.goexp.piplline.core.{Message, MessageHandler}
+import com.goexp.piplline.core.{MessageHandler, UserMessage}
 
 abstract class DefaultActor extends MessageHandler with Actor with Logger {
-  override def process(message: Message): Unit = {
+  override def process(message: UserMessage): Unit = {
     handle(message)
   }
 
-  def handle(msg: Message): Unit = {
+  def handle(msg: UserMessage): Unit = {
     val defaultCase: Rec = {
       case x =>
         logger.error(s"No catch case!! Case:$x")
