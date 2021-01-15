@@ -1,8 +1,8 @@
 package com.goexp.db.mongo
 
-import java.util.Objects
-
 import com.mongodb.client.{MongoClient, MongoClients}
+
+import java.util.Objects
 
 object DBTemplate {
   private var mongoClientCache: MongoClient = _
@@ -12,7 +12,7 @@ abstract class DBTemplate(private val connStr: String,
                           protected val database: String,
                           protected val table: String
                          ) {
-  protected val mongoClient = {
+  protected val mongoClient: MongoClient = {
 
     if (DBTemplate.mongoClientCache == null)
       if (connStr == null) {
