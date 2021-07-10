@@ -5,7 +5,7 @@ plugins {
 group 'com.goexp.ui'
 
 javafx {
-    version = '15'
+    version = '16'
     modules = ['javafx.base', 'javafx.controls', 'javafx.graphics', 'javafx.fxml']
 }
 
