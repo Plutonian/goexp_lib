@@ -129,3 +129,21 @@ class StringData(length: () => Int, charset: Charset) extends LimitData(length) 
 object StringData {
   def apply(length: => Int, charset: Charset): StringData = new StringData(() => length, charset)
 }
+
+class SkipData(length: () => Int) extends LimitData(length) {
+
+  override lazy val data: ByteBuffer = null
+
+  override def load(buffer: ByteBuffer): Unit = {
+    buffer.position(buffer.position() + length())
+  }
+
+  override def load(channel: SeekableByteChannel): Unit = {
+    channel.position(channel.position() + length())
+  }
+
+}
+
+object SkipData {
+  def apply(length: => Int): SkipData = new SkipData(() => length)
+}
