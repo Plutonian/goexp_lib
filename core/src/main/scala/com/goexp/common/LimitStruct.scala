@@ -17,7 +17,7 @@ class StructLoader(struct: LimitStruct) {
 
     limitDataFields.to(LazyList)
       .map {
-        _.get(struct).asInstanceOf[LimitData].size
+        _.get(struct).asInstanceOf[LimitData].size()
       }
       .sum
 
