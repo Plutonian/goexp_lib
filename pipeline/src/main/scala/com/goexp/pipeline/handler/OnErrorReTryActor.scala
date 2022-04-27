@@ -1,7 +1,7 @@
-package com.goexp.piplline.handler
+package com.goexp.pipeline.handler
 
-import com.goexp.piplline.core.{Pipeline, UserMessage}
-import com.goexp.piplline.handler.OnErrorReTryActor._
+import com.goexp.pipeline.core.{Pipeline, UserMessage}
+import com.goexp.pipeline.handler.OnErrorReTryActor._
 
 import java.util.Objects._
 import java.util.concurrent.TimeUnit

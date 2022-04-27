@@ -1,4 +1,4 @@
-package com.goexp.piplline.handler
+package com.goexp.pipeline.handler
 
 case class ErrorMsg()
 

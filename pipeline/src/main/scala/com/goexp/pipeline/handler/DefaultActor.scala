@@ -1,7 +1,7 @@
-package com.goexp.piplline.handler
+package com.goexp.pipeline.handler
 
 import com.goexp.common.util.Logger
-import com.goexp.piplline.core.{MessageHandler, UserMessage}
+import com.goexp.pipeline.core.{MessageHandler, UserMessage}
 
 abstract class DefaultActor extends MessageHandler with Actor with Logger {
   override def process(message: UserMessage): Unit = {

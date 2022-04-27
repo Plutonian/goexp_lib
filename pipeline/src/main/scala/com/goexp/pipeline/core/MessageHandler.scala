@@ -1,6 +1,6 @@
-package com.goexp.piplline.core
+package com.goexp.pipeline.core
 
-private[piplline]
+private[pipeline]
 trait MessageHandler extends MessageDriven {
   def process(message: UserMessage): Unit
 }

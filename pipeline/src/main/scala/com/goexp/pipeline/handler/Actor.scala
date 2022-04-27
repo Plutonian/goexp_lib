@@ -1,6 +1,6 @@
-package com.goexp.piplline.handler
+package com.goexp.pipeline.handler
 
-private[piplline]
+private[pipeline]
 trait Actor {
   protected type Rec = PartialFunction[Any, Unit]
 

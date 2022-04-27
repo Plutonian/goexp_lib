@@ -1,13 +1,13 @@
-package com.goexp.piplline.core
+package com.goexp.pipeline.core
 
-private[piplline]
+private[pipeline]
 trait Message
 
-private[piplline]
+private[pipeline]
 case class UserMessage(target: Class[_ <: MessageHandler], entity: Any) extends Message
 
-private[piplline]
+private[pipeline]
 class SystemMessage extends Message
 
-private[piplline]
+private[pipeline]
 case class Shutdown() extends SystemMessage

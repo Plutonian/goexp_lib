@@ -4,7 +4,7 @@
 
 allprojects {
     group = 'com.goexp'
-    version = '1.0.3'
+    version = '1.0.5'
 }
 
 subprojects {
@@ -13,11 +13,11 @@ subprojects {
     apply plugin: 'maven-publish'
 
     dependencies {
-        implementation 'org.scala-lang:scala-library:2.13.6'
+        compileOnly group: 'org.scala-lang', name: 'scala-library', version: '2.13.7'
 
-        implementation 'ch.qos.logback:logback-classic:1.2.3'
+        compileOnly 'ch.qos.logback:logback-classic:1.2.6'
 // https://mvnrepository.com/artifact/com.typesafe.scala-logging/scala-logging
-        implementation group: 'com.typesafe.scala-logging', name: 'scala-logging_2.13', version: '3.9.4'
+        compileOnly group: 'com.typesafe.scala-logging', name: 'scala-logging_2.13', version: '3.9.4'
 
     }
 

@@ -1,8 +1,8 @@
-package com.goexp.piplline.core
+package com.goexp.pipeline.core
 
 import com.goexp.common.util.Logger
-import com.goexp.piplline
-import com.goexp.piplline.handler.HandlerConfig
+import com.goexp.pipeline
+import com.goexp.pipeline.handler.HandlerConfig
 
 import java.util.concurrent.{ExecutorService, Executors}
 import scala.collection.mutable
@@ -24,12 +24,12 @@ class Pipeline extends MessageDriven with Logger {
 
 
   private def registry(handler: MessageHandler, executor: ExecutorService): Pipeline = {
-    configs.add(piplline.handler.HandlerConfig(handler, executor))
+    configs.add(pipeline.handler.HandlerConfig(handler, executor))
     this
   }
 
   private def registry(handler: MessageHandler, threadCount: Int): Pipeline = {
-    configs.add(piplline.handler.HandlerConfig(handler, Executors.newFixedThreadPool(threadCount)))
+    configs.add(pipeline.handler.HandlerConfig(handler, Executors.newFixedThreadPool(threadCount)))
     this
   }
 

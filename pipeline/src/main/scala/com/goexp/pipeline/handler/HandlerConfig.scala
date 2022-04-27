@@ -1,8 +1,8 @@
-package com.goexp.piplline.handler
+package com.goexp.pipeline.handler
+
+import com.goexp.pipeline.core.MessageHandler
 
 import java.util.concurrent.{ExecutorService, Executors}
-
-import com.goexp.piplline.core.MessageHandler
 
 case class HandlerConfig(handler: MessageHandler, executor: ExecutorService) {
 

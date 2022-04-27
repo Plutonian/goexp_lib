@@ -1,4 +1,4 @@
-package com.goexp.piplline.core
+package com.goexp.pipeline.core
 
 import scala.reflect.ClassTag
 

@@ -1,10 +1,10 @@
-package com.goexp.piplline.core
+package com.goexp.pipeline.core
+
+import com.goexp.pipeline.core.MessageQueueProxy._
 
 import java.util.concurrent.{ArrayBlockingQueue, TimeUnit}
 
-import com.goexp.piplline.core.MessageQueueProxy._
-
-private[piplline]
+private[pipeline]
 class MessageQueueProxy[T <: Message](val capacity: Int) {
   private val msgQueue = new ArrayBlockingQueue[T](capacity)
 
