@@ -44,7 +44,7 @@ case class ByteData() extends LimitData(() => 1) {
   }
 
   def hexString() = {
-    s"${"0x%02x".formatted(get())}"
+    s"${"0x%02x".format(get())}"
   }
 }
 
@@ -60,7 +60,7 @@ case class ShortData() extends LimitData(() => 2) {
   }
 
   def hexString() = {
-    s"${"%04x".formatted(get())}"
+    s"${"%04x".format(get())}"
 
   }
 }
@@ -77,7 +77,7 @@ case class IntData() extends LimitData(() => 4) {
   }
 
   def hexString() = {
-    s"${"%08x".formatted(get())}"
+    s"${"%08x".format(get())}"
 
   }
 }
@@ -94,7 +94,7 @@ case class LongData() extends LimitData(() => 8) {
   }
 
   def hexString() = {
-    s"${"%016x".formatted(get())}"
+    s"${"%016x".format(get())}"
 
   }
 }
