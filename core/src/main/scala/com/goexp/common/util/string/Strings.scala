@@ -5,7 +5,7 @@ object Strings {
   def isEmpty(str: String): Boolean = str == null || str.isEmpty
 
   @inline
-  def isNotEmpty(str: String): Boolean = str != null && !str.isEmpty
+  def isNotEmpty(str: String): Boolean = str != null && str.nonEmpty
 }
 
 object StringOption {
